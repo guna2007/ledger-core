@@ -1,0 +1,51 @@
+target/
+logs/
+.env
+.mvn/wrapper/maven-wrapper.jar
+HELP.md
+*.log
+*.gz
+*.class
+*.jar (except maven-wrapper.jar which is in the excluded wrapper dir anyway)
+
+# IDE — IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# IDE — Eclipse / STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# IDE — VS Code
+.vscode/
+
+# IDE — NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Environment
+.env
+
+# Build output
+target/
+build/
+
+# Logs
+logs/
+*.log
