@@ -2,3 +2,14 @@
 *.iml
 .DS_Store
 Thumbs.db
+
+# Build output
+SmartBank-Management-System/target/
+SmartBank-Management-System/build/
+
+# Logs
+SmartBank-Management-System/logs/
+SmartBank-Management-System/*.log
+
+# Environment
+SmartBank-Management-System/.env

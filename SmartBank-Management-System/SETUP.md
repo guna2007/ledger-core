@@ -85,7 +85,7 @@ The application starts immediately with no env vars. Email sending will fail sil
 
 ```bash
 # Database — all required
-export DB_URL=jdbc:mysql://<host>:3306/smart_bank_prod
+export DB_URL=jdbc:mysql://<host>:3306/smart_bank
 export DB_USERNAME=<production_user>
 export DB_PASSWORD=<production_password>
 
@@ -98,45 +98,28 @@ export SMTP_PASSWORD=<production_password_or_app_password>
 # JWT — required (must be ≥256 bits / 32+ characters)
 export JWT_SECRET=<a_long_random_secret_key>
 
+# CORS — required for frontend access
+export APP_CORS_ALLOWED_ORIGINS=<your_frontend_url>
+
 # Server (optional)
 export PORT=8080
 ```
 
-### Run with Production Profile
+### Build and Run
 
 ```bash
-./mvnw spring-boot:run -Dspring-boot.run.profiles=prod
-```
-
-Or build and run the JAR:
-```bash
+cd SmartBank-Management-System
 ./mvnw clean package -DskipTests
-java -jar target/SmartBank-Management-System-*.jar --spring.profiles.active=prod
+java -jar target/SmartBank-Management-System-*.jar
 ```
 
-The production profile:
-- Validates schema only (`ddl-auto: validate`) — never auto-creates tables
-- Disables SQL logging
-- Uses HikariCP connection pooling
-- Logs to `/var/log/smart-bank/application.log`
+The application uses a single `application.yml` with environment variable overrides. All production settings are configured via environment variables — no separate profile is needed.
+
+HikariCP connection pooling is always active. Schema auto-management (`ddl-auto: update`) ensures tables are created on first deploy.
 
 ### First-time Database Setup
 
-When deploying to a new database, temporarily switch to `ddl-auto: update` or run the schema manually:
+The application auto-creates the schema on first startup via `ddl-auto: update`. Just ensure the database exists:
 ```sql
-CREATE DATABASE IF NOT EXISTS smart_bank_prod;
+CREATE DATABASE IF NOT EXISTS smart_bank;
 ```
-
-After first run, switch back to `ddl-auto: validate` to prevent accidental schema changes.
-
----
-
-## Migration from Previous Configuration
-
-If you were running with the old hardcoded configuration:
-
-1. **Before deploying this version**, set the required environment variables (see above).
-2. The application will fail to start if `DB_PASSWORD`, `SMTP_USERNAME`, `SMTP_PASSWORD`, or `JWT_SECRET` are not set in production.
-3. The JWT secret has changed from the old hardcoded value. **All existing JWT tokens will be invalidated** after deploying this update. Users must log in again.
-4. No database migration is required — the schema is unchanged.
-5. The `paid_amount` column on the `loans` table (added in a previous update) is auto-managed via `ddl-auto: update`.

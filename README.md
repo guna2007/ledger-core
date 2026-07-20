@@ -35,6 +35,7 @@ Enterprise Banking REST API built using Spring Boot and React.js with JWT authen
 ## Live Deployment
 
 Frontend: 
+Backend: 
 
 ---
 
@@ -193,8 +194,7 @@ smart-bank/
 │       ├── AccountNumberGenerator.java
 │       └── EmailService.java
 ├── src/main/resources/
-│   ├── application.yml
-│   └── application-prod.yml
+│   └── application.yml
 └── pom.xml
 ```
 
@@ -256,6 +256,12 @@ cd ledger-core
 Copy the `.env` template and adjust values as needed:
 
 ```bash
+cp SmartBank-Management-System/.env.example SmartBank-Management-System/.env
+```
+
+Or use the variables directly:
+
+```bash
 # Database
 DB_URL=jdbc:mysql://localhost:3306/smart_bank
 DB_USERNAME=root
@@ -286,6 +292,7 @@ CREATE DATABASE IF NOT EXISTS smart_bank;
 ### Run Application
 
 ```bash
+cd SmartBank-Management-System
 ./mvnw spring-boot:run
 ```
 
@@ -307,7 +314,8 @@ Password: Admin@123
 ## Testing
 
 ```bash
-mvn test
+cd SmartBank-Management-System
+./mvnw test
 ```
 
 ### Testing Tools
@@ -320,11 +328,15 @@ mvn test
 
 ## Deployment
 
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete deployment instructions.
+
 | Layer    | Platform                   |
 | -------- | -------------------------- |
 | Frontend | Vercel                     |
-| Backend  | Render / Railway / AWS EC2 |
-| Database | MySQL                      |
+| Backend  | Render                     |
+| Database | Render MySQL               |
+
+`render.yaml` is included for infrastructure-as-code setup. You can also configure everything manually via the [Render Dashboard](https://dashboard.render.com/).
 
 ---
 
@@ -343,8 +355,6 @@ mvn test
 
 ## Future Improvements
 
-* Docker Containerization
-* CI/CD Pipeline Integration
 * Redis Caching
 * Kafka Event Streaming
 * Microservices Migration
@@ -373,5 +383,6 @@ Email:
 * Built full loan lifecycle (apply, approve, disburse, repay)
 * Implemented deposit, withdrawal, and fund transfer operations
 * All secrets configurable via environment variables / `.env`
+* Docker containerized for Render deployment
 
 ---
